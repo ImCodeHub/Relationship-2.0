@@ -4,11 +4,14 @@ import com.example.Relationship20.Entity.User;
 import com.example.Relationship20.Model.PostModel;
 import com.example.Relationship20.Model.UserProfileModel;
 import com.example.Relationship20.Service.ServiceImpl.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -18,8 +21,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("user-registration")
-    public ResponseEntity<User> userRegistration(@RequestBody UserProfileModel userProfileModel){
-        User user = userService.saveUser(userProfileModel);
+    public ResponseEntity<User> userRegistration(@Valid @RequestPart("user") UserProfileModel userProfileModel, @RequestPart("file") MultipartFile file) throws IOException {
+        User user = userService.saveUser(userProfileModel, file);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
     @GetMapping("get-user/{id}")

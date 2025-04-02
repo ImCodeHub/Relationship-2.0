@@ -28,6 +28,9 @@ public class Profile {
     @Column(nullable = false)
     private int age;
 
+    @Column(name ="image_name")
+    private String image;
+
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
