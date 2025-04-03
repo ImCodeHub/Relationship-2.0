@@ -9,11 +9,14 @@ import com.example.Relationship20.Repository.UserRepository;
 import com.example.Relationship20.Service.ServiceInterface.UserInterface;
 import com.example.Relationship20.Service.Utility.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -54,8 +57,10 @@ public class UserService implements UserInterface {
     }
 
     @Override
-    public UserProfileModel getUserDetailsById(Long userId) {
+    public UserProfileModel getUserDetailsById(Long userId) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found by this ID: " + userId));
+        //get the image from image directory
+        String image = imageService.getEncodedImageFromDirectory(user.getProfile().getImage());
         UserProfileModel userProfileModel = new UserProfileModel();
         userProfileModel.setFirstName(user.getFirstName() + " " + user.getLastName());
 //        userProfileModel.setLastName(user.getLastName());

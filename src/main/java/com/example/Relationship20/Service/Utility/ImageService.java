@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Base64;
 
 @Service
 public class ImageService {
@@ -33,4 +34,17 @@ public class ImageService {
         return imageFileName;
 
     }
+
+    public String getEncodedImageFromDirectory(String imageName ) throws IOException {
+        //Step 1: find the path to image directory
+        Path directoryPath = Paths.get(uploadDirectory).resolve(imageName);
+        //Step 2: convert image into bytes
+        byte[] imageBytes = Files.readAllBytes(directoryPath);
+        //Step 3: convert image bytes in to String
+        String stringFormatImage = Base64.getEncoder().encodeToString(imageBytes);
+        //Step 4: return.
+        return stringFormatImage;
+    }
+
+
 }

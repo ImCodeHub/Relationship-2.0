@@ -25,6 +25,8 @@ public class UserProfileModel {
     @Size(min = 8, max = 15, message = "password must be at least 8 character and maximum 15 character")
     private String password;
 
+    private String image;
+
 
     private String city;
     private String state;

@@ -26,7 +26,7 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
     @GetMapping("get-user/{id}")
-    public ResponseEntity<UserProfileModel> getUserById(@PathVariable Long id){
+    public ResponseEntity<UserProfileModel> getUserById(@PathVariable Long id) throws IOException {
         UserProfileModel user = userService.getUserDetailsById(id);
         return new ResponseEntity<>(user, HttpStatus.FOUND);
     }

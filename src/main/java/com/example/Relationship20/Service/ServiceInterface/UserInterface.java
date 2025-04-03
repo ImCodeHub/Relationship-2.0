@@ -8,5 +8,5 @@ import java.io.IOException;
 
 public interface UserInterface {
     public User saveUser(UserProfileModel userProfileModel, MultipartFile imageFile) throws IOException;
-    public UserProfileModel getUserDetailsById(Long userId);
+    public UserProfileModel getUserDetailsById(Long userId) throws IOException;
 }
