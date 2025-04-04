@@ -7,7 +7,10 @@ import com.example.Relationship20.Model.PostModel;
 import com.example.Relationship20.Model.UserProfileModel;
 import com.example.Relationship20.Repository.UserRepository;
 import com.example.Relationship20.Service.ServiceInterface.UserInterface;
+import com.example.Relationship20.Service.Utility.EmailService;
 import com.example.Relationship20.Service.Utility.ImageService;
+import jakarta.mail.MessagingException;
+import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,9 +27,14 @@ public class UserService implements UserInterface {
     @Autowired
     private ImageService imageService;
 
-    @Override
-    public User saveUser(UserProfileModel userProfileModel, MultipartFile imageFile) throws IOException {
+    @Autowired
+    private EmailService emailService;
 
+    @Override
+    public User saveUser(UserProfileModel userProfileModel, MultipartFile imageFile) throws IOException, MessagingException {
+        String to = userProfileModel.getEmail();
+        String subject = "Greeting from Signimus Technology";
+        String textBody = emailService.greetingEmailHtml(userProfileModel.getFirstName()+" "+userProfileModel.getLastName());
         // save the image in directory & return the unique file name
         String imageFileName = imageService.saveUserImage(imageFile);
 
@@ -47,6 +55,8 @@ public class UserService implements UserInterface {
         user.setEmail(userProfileModel.getEmail());
         user.setPassword(userProfileModel.getPassword());
         user.setProfile(profile);
+
+        emailService.sendStanderEmail(to, subject, textBody);
 
         return userRepository.save(user);
     }

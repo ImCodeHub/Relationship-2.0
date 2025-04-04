@@ -4,6 +4,7 @@ import com.example.Relationship20.Entity.User;
 import com.example.Relationship20.Model.PostModel;
 import com.example.Relationship20.Model.UserProfileModel;
 import com.example.Relationship20.Service.ServiceImpl.UserService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("user-registration")
-    public ResponseEntity<User> userRegistration(@Valid @RequestPart("user") UserProfileModel userProfileModel, @RequestPart("file") MultipartFile file) throws IOException {
+    public ResponseEntity<User> userRegistration(@Valid @RequestPart("user") UserProfileModel userProfileModel, @RequestPart("file") MultipartFile file) throws IOException, MessagingException {
         User user = userService.saveUser(userProfileModel, file);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
